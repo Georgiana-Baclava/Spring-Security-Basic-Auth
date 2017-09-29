@@ -41,9 +41,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/static/**", "/", "/login","/css/**","/webjars/**").permitAll()
-                .anyRequest()
+                .antMatchers("/static/**", "/", "/login","/css/**","/webjars/**").permitAll();
+
+        http
+                .authorizeRequests()
+                .antMatchers("/home", "ping")
                 .hasAuthority(ROLE_SPECIFIC_FOR_ENDPOINT)
+                //redirect unauthorized calls to login
                 .and()
                 .httpBasic();
 
@@ -52,8 +56,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-        auth
+    protected void configure(final AuthenticationManagerBuilder amb) throws Exception {
+        amb
                 .eraseCredentials(false)
                 .inMemoryAuthentication()
                 .withUser(username)

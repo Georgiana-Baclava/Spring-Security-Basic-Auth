@@ -18,7 +18,6 @@ public class Mappings {
     @GetMapping("/home")
     @PreAuthorize("hasAuthority('BASIC_AUTH')")
     public String home() {
-        System.out.println("ELA");
         return "home";
     }
 
